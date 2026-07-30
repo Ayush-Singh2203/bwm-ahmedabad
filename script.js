@@ -129,9 +129,10 @@ document.addEventListener('DOMContentLoaded', function () {
           form.reset();
 
           // Google Ads: fire form submission conversion
+          // TODO: Replace AW-XXXXXXXXXX/YYYYYYY with Ahmedabad Google Ads conversion ID
           if (typeof gtag === 'function') {
             gtag('event', 'conversion', {
-              'send_to': 'AW-18205040266/-MzaCMqLq7gcEIq96-hD',
+              'send_to': 'AW-XXXXXXXXXX/YYYYYYY',
               'value': 1.0,
               'currency': 'INR',
               'event_callback': function () {}
@@ -156,11 +157,12 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   /* ----- Google Ads: Phone number click tracking ----- */
+  // TODO: Replace AW-XXXXXXXXXX/YYYYYYY with Ahmedabad Google Ads conversion ID
   document.querySelectorAll('a[href^="tel:"]').forEach(function (link) {
     link.addEventListener('click', function () {
       if (typeof gtag === 'function') {
         gtag('event', 'conversion', {
-          'send_to': 'AW-18205040266/-MzaCMqLq7gcEIq96-hD',
+          'send_to': 'AW-XXXXXXXXXX/YYYYYYY',
           'value': 1.0,
           'currency': 'INR'
         });
