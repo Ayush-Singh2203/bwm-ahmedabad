@@ -163,6 +163,20 @@ document.addEventListener('DOMContentLoaded', function () {
         if (res.ok) {
           contactStatus.style.color = '#2a7a2a';
           contactStatus.textContent = '\u2713 Message sent! We\u2019ll be in touch shortly.';
+
+          /* Enhanced conversions – send hashed user data to Google */
+          if (typeof gtag === 'function') {
+            var formData = new FormData(contactForm);
+            gtag('set', 'user_data', {
+              email:        (formData.get('email')  || '').trim().toLowerCase(),
+              phone_number: (formData.get('phone')  || '').trim(),
+              address: {
+                first_name: (formData.get('name') || '').trim().split(' ')[0] || '',
+                last_name:  (formData.get('name') || '').trim().split(' ').slice(1).join(' ') || ''
+              }
+            });
+          }
+
           contactForm.reset();
           fireConversion(CONV_FORM, 1.0);
         } else {
@@ -369,6 +383,18 @@ document.addEventListener('DOMContentLoaded', function () {
         if (res.ok) {
           /* Fire Google Ads brochure conversion */
           fireConversion(CONV_BROCHURE, 1.0);
+
+          /* Enhanced conversions – send hashed user data to Google */
+          if (typeof gtag === 'function') {
+            gtag('set', 'user_data', {
+              email:        emailVal.toLowerCase(),
+              phone_number: phoneVal,
+              address: {
+                first_name: nameVal.split(' ')[0] || '',
+                last_name:  nameVal.split(' ').slice(1).join(' ') || ''
+              }
+            });
+          }
 
           /* Send brochure email via EmailJS */
           var brochureUrl = 'https://ahm.bwm.co.in/images/BWM_CatalogV2.36cm.pdf';
