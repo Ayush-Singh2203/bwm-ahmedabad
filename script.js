@@ -184,20 +184,56 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
   /* ════════════════════════════════════════════
-     8. PHONE & EMAIL CLICK TRACKING (ALL instances)
-        Header topbar + contact section + footer
+     8. PHONE, EMAIL & WHATSAPP CLICK TRACKING
+        Fires GA4 event + Google Ads conversion
+        for every click on phone, email, whatsapp
      ════════════════════════════════════════════ */
+
+  /* Phone clicks – all instances (hero card, contact section, footer) */
   document.querySelectorAll('a[href^="tel:"]').forEach(function (link) {
     link.addEventListener('click', function () {
+      /* GA4 event */
+      if (typeof gtag === 'function') {
+        gtag('event', 'phone_click', {
+          event_category: 'Contact',
+          event_label: link.href
+        });
+      }
+      /* Google Ads conversion */
       fireConversion(CONV_PHONE, 1.0);
     });
   });
 
+  /* Email clicks – all instances */
   document.querySelectorAll('a[href^="mailto:"]').forEach(function (link) {
     link.addEventListener('click', function () {
+      /* GA4 event */
+      if (typeof gtag === 'function') {
+        gtag('event', 'email_click', {
+          event_category: 'Contact',
+          event_label: link.href
+        });
+      }
+      /* Google Ads conversion */
       fireConversion(CONV_EMAIL, 1.0);
     });
   });
+
+  /* WhatsApp float button */
+  var whatsappBtn = document.querySelector('.whatsapp-float');
+  if (whatsappBtn) {
+    whatsappBtn.addEventListener('click', function () {
+      /* GA4 event */
+      if (typeof gtag === 'function') {
+        gtag('event', 'whatsapp_click', {
+          event_category: 'Contact',
+          event_label: 'WhatsApp Float Button'
+        });
+      }
+      /* Google Ads conversion – reuses phone conversion label */
+      fireConversion(CONV_PHONE, 1.0);
+    });
+  }
 
 
   /* ════════════════════════════════════════════
