@@ -14,10 +14,10 @@
    CONV_EMAIL             → Email click conversion label
    ───────────────────────────────────────────── */
 var ADS_ID        = 'AW-18337045769';
-var CONV_FORM     = 'AW-18337045769/FORM_LABEL';
-var CONV_BROCHURE = 'AW-18337045769/BROCHURE_LABEL';
-var CONV_PHONE    = 'AW-18337045769/PHONE_LABEL';
-var CONV_EMAIL    = 'AW-18337045769/EMAIL_LABEL';
+var CONV_FORM     = 'AW-18337045769/LnC1CIfSsv4cEIm65KdE';
+var CONV_BROCHURE = 'AW-18337045769/LnC1CIfSsv4cEIm65KdE';
+var CONV_PHONE    = 'AW-18337045769/KRT8CIrSsv4cEIm65KdE';
+var CONV_EMAIL    = 'AW-18337045769/KRT8CIrSsv4cEIm65KdE';
 
 /* Helper: fire a Google Ads goal conversion */
 function fireConversion(sendTo, value) {
