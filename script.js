@@ -13,11 +13,11 @@
    CONV_PHONE             → Phone number click conversion label
    CONV_EMAIL             → Email click conversion label
    ───────────────────────────────────────────── */
-var ADS_ID        = 'AW-XXXXXXXXXX';
-var CONV_FORM     = 'AW-XXXXXXXXXX/FORM_LABEL';
-var CONV_BROCHURE = 'AW-XXXXXXXXXX/BROCHURE_LABEL';
-var CONV_PHONE    = 'AW-XXXXXXXXXX/PHONE_LABEL';
-var CONV_EMAIL    = 'AW-XXXXXXXXXX/EMAIL_LABEL';
+var ADS_ID        = 'G-GRQ4P4DLNL';
+var CONV_FORM     = 'G-GRQ4P4DLNL/FORM_LABEL';
+var CONV_BROCHURE = 'G-GRQ4P4DLNL/BROCHURE_LABEL';
+var CONV_PHONE    = 'G-GRQ4P4DLNL/PHONE_LABEL';
+var CONV_EMAIL    = 'G-GRQ4P4DLNL/EMAIL_LABEL';
 
 /* Helper: fire a Google Ads goal conversion */
 function fireConversion(sendTo, value) {
