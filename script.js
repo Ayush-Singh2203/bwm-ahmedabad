@@ -505,3 +505,140 @@ document.addEventListener('DOMContentLoaded', function () {
   resetInactivityTimer();
 
 }); /* end DOMContentLoaded */
+
+
+/* ════════════════════════════════════════════
+   ADVANCED GA4 EVENT TRACKING
+   ════════════════════════════════════════════ */
+
+document.addEventListener('DOMContentLoaded', function () {
+
+  function gaEvent(name, params) {
+    if (typeof gtag === 'function') {
+      gtag('event', name, params || {});
+    }
+  }
+
+  /* ── 1. Scroll depth (25, 50, 75, 90%) ── */
+  var scrollFired = {};
+  window.addEventListener('scroll', function () {
+    var pct = Math.round(
+      (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100
+    );
+    [25, 50, 75, 90].forEach(function (mark) {
+      if (pct >= mark && !scrollFired[mark]) {
+        scrollFired[mark] = true;
+        gaEvent('scroll_depth', { percent: mark, event_category: 'Engagement' });
+      }
+    });
+  }, { passive: true });
+
+
+  /* ── 2. Get a Quote button clicks ── */
+  document.querySelectorAll('a[href="#contact"], a[href="#contact"] *').forEach(function (el) {
+    el.addEventListener('click', function () {
+      gaEvent('get_quote_click', { event_category: 'CTA', event_label: el.closest('a') ? el.closest('a').textContent.trim().substring(0, 50) : 'Get Quote' });
+    });
+  });
+
+
+  /* ── 3. Talk to Experts CTA clicks ── */
+  document.querySelectorAll('.btn-soft-cta, .experts-cta-banner .btn').forEach(function (el) {
+    el.addEventListener('click', function () {
+      gaEvent('talk_to_experts_click', { event_category: 'CTA', event_label: el.textContent.trim().substring(0, 50) });
+    });
+  });
+
+
+  /* ── 4. Product card in-view (Intersection Observer) ── */
+  if ('IntersectionObserver' in window) {
+    var productObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          var h3 = entry.target.querySelector('h3');
+          gaEvent('view_product', {
+            event_category: 'Products',
+            event_label: h3 ? h3.textContent.trim() : 'Unknown'
+          });
+          productObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.5 });
+
+    document.querySelectorAll('.product-card').forEach(function (card) {
+      productObserver.observe(card);
+    });
+  }
+
+
+  /* ── 5. FAQ open tracking ── */
+  document.querySelectorAll('.accordion-trigger').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      if (btn.getAttribute('aria-expanded') !== 'true') {
+        gaEvent('faq_open', {
+          event_category: 'FAQ',
+          event_label: btn.textContent.trim().replace(/\+$/, '').trim().substring(0, 80)
+        });
+      }
+    });
+  });
+
+
+  /* ── 6. Time on page (30s, 60s, 120s) ── */
+  var timeFired = {};
+  [30, 60, 120].forEach(function (sec) {
+    setTimeout(function () {
+      if (!timeFired[sec]) {
+        timeFired[sec] = true;
+        gaEvent('time_on_page', { event_category: 'Engagement', seconds: sec });
+      }
+    }, sec * 1000);
+  });
+
+
+  /* ── 7. Form start (first keystroke in contact form) ── */
+  var formStartFired = false;
+  var contactFormEl = document.getElementById('contact-form');
+  if (contactFormEl) {
+    contactFormEl.addEventListener('input', function () {
+      if (!formStartFired) {
+        formStartFired = true;
+        gaEvent('form_start', { event_category: 'Contact', event_label: 'Contact Form' });
+      }
+    }, { once: true });
+  }
+
+
+  /* ── 8. Brochure popup open ── */
+  document.querySelectorAll('.js-brochure-trigger').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      gaEvent('brochure_popup_open', { event_category: 'Engagement', event_label: btn.textContent.trim().substring(0, 50) });
+    });
+  });
+
+
+  /* ── 9. Exit intent shown ── */
+  document.addEventListener('mouseleave', function (e) {
+    if (e.clientY <= 6) {
+      gaEvent('exit_intent_shown', { event_category: 'Engagement' });
+    }
+  }, { once: true });
+
+  /* Inactivity popup shown */
+  var origShow = window._showExitPopupTracked;
+  setTimeout(function () {
+    gaEvent('inactivity_popup_shown', { event_category: 'Engagement', seconds: 50 });
+  }, 50500); /* fires just after the 50s inactivity popup */
+
+
+  /* ── 10. Weave tab clicks ── */
+  document.querySelectorAll('.weave-card').forEach(function (card) {
+    card.addEventListener('click', function () {
+      gaEvent('weave_tab_click', {
+        event_category: 'Products',
+        event_label: card.getAttribute('data-weave') || card.querySelector('h4') ? card.querySelector('h4').textContent.trim() : 'Unknown'
+      });
+    });
+  });
+
+}); /* end advanced tracking DOMContentLoaded */
