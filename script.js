@@ -179,6 +179,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
           contactForm.reset();
           fireConversion(CONV_FORM, 1.0);
+
+          /* Redirect to thank-you page */
+          setTimeout(function () {
+            window.location.href = 'thank-you.html';
+          }, 800);
         } else {
           return res.json().then(function (json) {
             throw new Error(json.errors ? json.errors.map(function (er) { return er.message; }).join(', ') : 'Failed');
@@ -404,16 +409,16 @@ document.addEventListener('DOMContentLoaded', function () {
             phone:    phoneVal,
             brochure_url: brochureUrl
           }).catch(function () {
-            /* Silent fail – PDF still opens even if email fails */
+            /* Silent fail */
           });
 
-          /* Open the PDF directly in a new tab */
-          window.open('images/BWM_CatalogV2.36cm.pdf', '_blank');
-
-          /* Close the form popup, open the thank-you popup */
-          closeModal(brochureModal);
-          setTimeout(function () { openModal(brochureThankyou); }, 350);
           brochureForm.reset();
+
+          /* Close modal and redirect to brochure thank-you page */
+          closeModal(brochureModal);
+          setTimeout(function () {
+            window.location.href = 'brochure-thank-you.html';
+          }, 400);
         } else {
           return res.json().then(function (json) {
             throw new Error(json.errors ? json.errors.map(function (er) { return er.message; }).join(', ') : 'Server error');
